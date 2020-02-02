@@ -4,7 +4,7 @@ var Admin =require('../../model/Admin');
 var jwt =require('jsonwebtoken');
 
 router.post('/signup',function (req,res) {
-var admin = new Admin();
+var admin = new Admin(); // test
 admin.name =req.body.name;
 admin.email=req.body.email;
 admin.password=req.body.password;
@@ -22,7 +22,7 @@ admin.save(function (err,rtn) {
   }
 })
 })
-// 
+//
 // router.post('/signin',function (req,res) {
 //   Admin.findOne({req.body.email},function (err,rtn) {
 //     if(err){
