@@ -22,39 +22,39 @@ admin.save(function (err,rtn) {
   }
 })
 })
-//
-// router.post('/signin',function (req,res) {
-//   Admin.findOne({req.body.email},function (err,rtn) {
-//     if(err){
-//       res.status(500).json({
-//       message:"Internal Server Error",
-//       error:err
-//     })
-//   }else{
-//     if(rtn != null && Admin.Compare(req.body.password,rtn.password)){
-//       var token =jwt.sign(
-//         {
-//           email:rtn.email,
-//           id:rtn._id,
-//           name:rtn.name
-//         },
-//         "techapi007",
-//         {
-//           expiresIn:"3h"
-//         }
-//       );
-//       res.status(200).json({
-//         message:'Admin Signin Success',
-//         token:token
-//       })
-//     }else{
-//       res.status(404).json({
-//         message:'Account Not Found'
-//       })
-//     }
-//   }
-//   })
-// })
+
+router.post('/signin',function (req,res) {
+  Admin.findOne({email:req.body.email},function (err,rtn) {
+    if(err){
+      res.status(500).json({
+      message:"Internal Server Error",
+      error:err
+    })
+  }else{
+    if(rtn != null && Admin.compare(req.body.password,rtn.password)){
+      var token =jwt.sign(
+        {
+          email:rtn.email,
+          id:rtn._id,
+          name:rtn.name
+        },
+        "techapi007",
+        {
+          expiresIn:"3h"
+        }
+      );
+      res.status(200).json({
+        message:'Admin Signin Success',
+        token:token
+      })
+    }else{
+      res.status(404).json({
+        message:'Account Not Found'
+      })
+    }
+  }
+  })
+})
 
 
 

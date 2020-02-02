@@ -3,10 +3,10 @@ var router = express.Router();
 var User =require('../../model/User');
 var bcrypt =require('bcryptjs');
 var Post =require('../../model/Post');
-var checkAuth = require('../middleware/check-auth')
+var checkAuth = require('../middleware/check-auth');
 
 router.get('/list',checkAuth,function (req,res) {
-  User.find(function (err,rtn) {
+  Post.find(function (err,rtn) {
     if(err){
       res.status(500).json({
         message:"Internal Server Error ",
@@ -14,18 +14,18 @@ router.get('/list',checkAuth,function (req,res) {
       })
     }else {
       res.status(200).json({
-        users:rtn
+        post:rtn
       });
     }
   })
 })
 
 router.post('/add',checkAuth,function (req,res) {
-  var user =new User();
-  user.name =req.body.name;
-  user.email=req.body.email;
-  user.password =req.body.password;
-  user.save(function (err,rtn) {
+  var post =new Post();
+  post.title=req.body.title;
+  post.contant=req.body.contant;
+  post.author=req.body.author;
+  post.save(function (err,rtn) {
     if(err){
       res.status(500).json({
         message:"Internal Server Error ",
@@ -33,15 +33,15 @@ router.post('/add',checkAuth,function (req,res) {
       })
     }else {
       res.status(201).json({
-        message:"User Account Created!!",
-        users:rtn
+        message:"Post Created!!",
+        post:rtn
       });
     }
   })
   })
 
   router.get('/:id',checkAuth,function (req,res) {
-  User.findById(req.params.id,function (err,rtn) {
+  Post.findById(req.params.id,function (err,rtn) {
     if(err){
       res.status(500).json({
         message:"Internal Server Error ",
@@ -49,7 +49,7 @@ router.post('/add',checkAuth,function (req,res) {
     })
   }else{
       res.status(201).json({
-        users:rtn
+        post:rtn
       })
     }
   })
@@ -60,7 +60,7 @@ router.patch('/:id',checkAuth,function (req,res) {
   for (var opt of req.body) {
     update[opt.proName]=opt.proValue
       }
-  User.findByIdAndUpdate(req.params.id,{$set:update},function (err,rtn) {
+  Post.findByIdAndUpdate(req.params.id,{$set:update},function (err,rtn) {
     if(err){
       res.status(500).json({
         message:"Internal Server Error ",
@@ -68,14 +68,15 @@ router.patch('/:id',checkAuth,function (req,res) {
     })
   }else{
       res.status(200).json({
-        message:"User Account Updated"
+        message:"Post Account Updated"
       })
     }
   })
 })
 
+
 router.delete('/:id',checkAuth,function (req,res) {
-  User.findByIdAndRemove(req.params.id,function (err,rtn) {
+  Post.findByIdAndRemove(req.params.id,function (err,rtn) {
     if(err){
       res.status(500).json({
         message:"Internal Server Error ",
@@ -83,9 +84,12 @@ router.delete('/:id',checkAuth,function (req,res) {
     })
   }else{
       res.status(200).json({
-        message:"User Account Deleted"
+        message:"Post Account Deleted"
       })
     }
   })
 })
+
+
+
 module.exports = router;
